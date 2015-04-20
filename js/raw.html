@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Sensor Detection</title>
+    <script src="jquery-2.1.1.min.js"></script>
+    <script src="js/jquery_webgravity.js"></script>
+</head>
+<body>
+
+<style>
+    table,th, td{ border: 1px solid black; }
+</style>
+
+<h1>Device Orientation</h1>
+
+<div id="is_supported_orientation"></div>
+<br>
+<table>
+    <tr>
+        <td style="padding-right: 40px">Tilt [alpha]: </td>
+        <td style="padding-left: 20px; padding-right: 20px", id="tilt_alpha">0</td>
+    </tr>
+    <tr>
+        <td>Tilt [beta]: </td>
+        <td  style="padding-left: 20px; padding-right: 20px", id="tilt_beta">0</td>
+    </tr>
+    <tr>
+        <td>Tilt [gamma]: </td>
+        <td  style="padding-left: 20px; padding-right: 20px", id="tilt_gamma">0</td>
+    </tr>
+    <tr>
+        <td>Tilt [absolute]: </td>
+        <td  style="padding-left: 20px; padding-right: 20px", id="tilt_abs">0</td>
+    </tr>
+</table>
+
+<script>
+
+    init_orientation();
+
+    function init_orientation() {
+        if (window.DeviceOrientationEvent) {
+            document.getElementById("is_supported_orientation").innerHTML = "DeviceOrientation supported";
+            window.addEventListener('deviceorientation', deviceOrientationHandler, true);
+        }
+        else if (window.OrientationEvent){
+            window.addEventListener('MozOrientation', OrientationHandler, true);
+        }
+        else {
+            document.getElementById("is_supported_orientation").innerHTML = "DeviceOrientation not supported on your device or browser.";
+        }
+    }
+
+    function OrientationHandler(eventData){
+        var lr = eventData.x * 90;
+        var fb = eventData.y * -90;
+        var grav = eventData.z;
+
+        document.getElementById("tilt_alpha").innerHTML =
+                (Math.round(100 * lr) / 100 == 0) ? "0.00" : Math.round(100 * lr) / 100;
+        document.getElementById("tilt_beta").innerHTML =
+                (Math.round(100 * fb) / 100 == 0) ? "0.00" : Math.round(100 * fb) / 100;
+        document.getElementById("tilt_gamma").innerHTML =
+                (Math.round(100 * grav) / 100 == 0) ? "0.00" : Math.round(100 * grav) / 100;
+    }
+
+    function deviceOrientationHandler(eventData) {
+        var alpha = eventData.alpha;
+        var beta = eventData.beta;
+        var gamma = eventData.gamma;
+        var abs = eventData.absolute;
+
+        document.getElementById("tilt_alpha").innerHTML =
+                (Math.round(100 * alpha) / 100 == 0) ? "0.00" : Math.round(100 * alpha) / 100;
+        document.getElementById("tilt_beta").innerHTML =
+                (Math.round(100 * beta) / 100 == 0) ? "0.00" : Math.round(100 * beta) / 100;
+        document.getElementById("tilt_gamma").innerHTML =
+                (Math.round(100 * gamma) / 100 == 0) ? "0.00" : Math.round(100 * gamma) / 100;
+        document.getElementById("tilt_abs").innerHTML = abs;
+    }
+
+
+</script>
+
+<h1>Device Motion</h1>
+<div>
+    <div id="is_supported_motion"></div><br>
+    <table>
+        <tr>
+            <th> Acceleration </th>
+            <th> AccelerationIncludingGravity </th>
+        </tr>
+        <tr>
+            <td>Acceleration x: <div id="accel_x"></div></td>
+            <td>AccGrav x: <div id="accel_and_grav_x"></div></td>
+        </tr>
+        <tr>
+            <td>Acceleration y: <div id="accel_y"></div></td>
+            <td>AccGrav y: <div id="accel_and_grav_y"></div></td>
+        </tr>
+        <tr>
+            <td>Acceleration z: <div id="accel_z"></div></td>
+            <td>AccGrav z: <div id="accel_and_grav_z"></div></td>
+        </tr>
+    </table>
+    <br>
+
+    <table>
+        <tr>
+            <th>Rotation Rate</th>
+        </tr>
+        <tr>
+            <td>RotRate alpha (FB): <div id="rot_rate_a"></div></td>
+            <td>
+                # Tilting to front: <div id="tilt_front">0</div>
+                # Tilting to back: <div id="tilt_back">0</div>
+            </td>
+        </tr>
+        <tr>
+            <td>RotRate beta (RL): <div id="rot_rate_b"></div></td>
+            <td>
+                # Tilting to right: <div id="tilt_right">0</div>
+                # Tilting to left: <div id="tilt_left">0</div>
+            </td>
+        </tr>
+        <tr>
+            <td>RotRate gamma (CA): <div id="rot_rate_c"></div></td>
+            <td>
+                # Tilting to clockwise: <div id="tilt_clock">0</div>
+                # Tilting to counterclockwise: <div id="tilt_counterclock">0</div>
+            </td>
+        </tr>
+    </table>
+    <br>
+
+    <div>
+        <div>interval: </div>
+        <div id="interval"></div>
+        <div id="myevent"></div>
+    </div>
+</div>
+
+<script>
+    init_motion();
+
+    function init_motion() {
+        if (window.DeviceMotionEvent) {
+            document.getElementById("is_supported_motion").innerHTML = "DeviceMotion supported";
+            window.addEventListener('devicemotion', deviceMotionHandler, true);
+        }
+        else {
+            document.getElementById("is_supported_motion").innerHTML = "DeviceMotion not supported on your device or browser."
+        }
+    }
+
+    function deviceMotionHandler(eventData) {
+        var acceleration = eventData.acceleration;
+        var acc_grav = eventData.accelerationIncludingGravity;
+        var rot = eventData.rotationRate;
+        var int = eventData.interval;
+        var granularity = 10;
+        acc_x = Math.round(granularity * acceleration.x) / granularity;
+        acc_y = Math.round(granularity * acceleration.y) / granularity;
+        acc_z = Math.round(granularity * acceleration.z) / granularity;
+        acc_grav_x = Math.round(granularity * acc_grav.x) / granularity;
+        acc_grav_y = Math.round(granularity * acc_grav.y) / granularity;
+        acc_grav_z = Math.round(granularity * acc_grav.z) / granularity;
+        rot_a = Math.round(granularity * rot.alpha) / granularity;
+        rot_b = Math.round(granularity * rot.beta) / granularity;
+        rot_c = Math.round(granularity * rot.gamma) / granularity;
+
+        document.getElementById("accel_x").innerHTML = (acc_x == 0) ? "0.0" : acc_x;
+        document.getElementById("accel_y").innerHTML = (acc_y == 0) ? "0.0" : acc_y;
+        document.getElementById("accel_z").innerHTML = (acc_z == 0) ? "0.0" : acc_z;
+        document.getElementById("accel_and_grav_x").innerHTML = (acc_grav_x == 0) ? "0.0" : acc_grav_x;
+        document.getElementById("accel_and_grav_y").innerHTML = (acc_grav_y == 0) ? "0.0" : acc_grav_y;
+        document.getElementById("accel_and_grav_z").innerHTML = (acc_grav_z == 0) ? "0.0" : acc_grav_z;
+        document.getElementById("rot_rate_a").innerHTML = (rot_a == 0) ? "0.0" : rot_a;
+        document.getElementById("rot_rate_b").innerHTML = (rot_b == 0) ? "0.0" : rot_b;
+        document.getElementById("rot_rate_c").innerHTML = (rot_c == 0) ? "0.0" : rot_c;
+
+        document.getElementById("interval").innerHTML = int + " ms";
+
+        $("body").webGravity({
+            onTiltUp : tiltup, onTiltDown : tiltdown,
+            onTiltLeft : tiltleft, onTiltRight : tiltright,
+            onTiltClock : tiltclock, onTiltCounterClock : tiltcounterclock
+        });
+
+        function tiltup(){
+            document.getElementById("tilt_front").innerHTML = Number(document.getElementById("tilt_front").innerHTML) + 1;
+            document.getElementById("myevent").innerHTML = "tiltUP";
+        }
+        function tiltdown(){
+            document.getElementById("tilt_back").innerHTML = Number(document.getElementById("tilt_back").innerHTML) + 1;
+            document.getElementById("myevent").innerHTML = "tiltDOWN";
+        }
+        function tiltleft(){
+            document.getElementById("tilt_left").innerHTML = Number(document.getElementById("tilt_left").innerHTML) + 1;
+            document.getElementById("myevent").innerHTML = "tiltLEFT";
+        }
+        function tiltright(){
+            document.getElementById("tilt_right").innerHTML = Number(document.getElementById("tilt_right").innerHTML) + 1;
+            document.getElementById("myevent").innerHTML = "tiltRIGHT";
+        }
+        function tiltclock(){
+            document.getElementById("tilt_clock").innerHTML = Number(document.getElementById("tilt_clock").innerHTML) + 1;
+            document.getElementById("myevent").innerHTML = "tiltCLOCK";
+        }
+        function tiltcounterclock(){
+            document.getElementById("tilt_counterclock").innerHTML = Number(document.getElementById("tilt_counterclock").innerHTML) + 1;
+            document.getElementById("myevent").innerHTML = "tiltCOUNTERCLOCK";
+        }
+    }
+
+</script>
+</body>
+</html>

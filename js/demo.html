@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8, user-scalable=no" />
+    <title></title>
+    <style> </style>
+</head>
+<body>
+
+<div id="my_div" style="width: 200px; height: 200px; background: black; float: left;">
+    <a style="color: white">my_div</a>
+</div>
+<div id="my_div1" style="width: 200px; height: 200px; background: #808080; float: right;">my_div1</div>
+<div id="msg" style="clear: both;"></div>
+<div id="msg2" style="border: 1px solid red"></div>
+<div id="msg3"></div>
+<div id="msg4" style="border: 1px solid blue"></div>
+<div id="msg5"></div>
+<button id="btn">Play</button>
+<div id="div_menu" style="width: 200px; height: 200px; background: blue">div_menu</div>
+<br>
+<div id="my_div2" style="width: 400px; height: 100px; background: red; position: relative; left: 100px;">my_div2</div>
+<br>
+
+<div id="element_div">
+    <img class="class_img" style="float: left; padding-right: 10px" id="img1" src="img/img1.jpg" width="120" height="120" />
+    <div class="class_img" style="border: 3px solid black; width: 120px; height: 120px; float: left;" id="img2"></div>
+    <img class="class_img" style="float: left; padding-left: 10px;" id="img3" src="img/img3.jpg" width="120" height="120" />
+</div>
+
+<br style="clear: both;">
+<div id="my_div3" style="height: 20px; width: 700px; border: 1px solid red;">my_div3</div>
+
+<script src="jquery-2.1.1.min.js"></script>
+<script src="jquery_webgravity.js"></script>
+<script src="plugin.js"></script>
+
+<script>
+
+    document.getElementById("btn").addEventListener("click", function(){
+        $("body").auditory_feedback({
+            audio_file: "test.mp3" // if this line is not written, the plugin plays its default file
+        });
+    });
+
+    $("body").webGravity({
+//        tiltUp: {onTiltUp: nextPicture, audioFeedback: "test.mp3"},
+//        pressing: {pressStart: press_started, pressEnd: press_ended},
+//        tapping: {singletap: single_tapped, doubletap: double_tapped}
+        activationBy: {type: "doubletap", element: "div_menu"}
+        //the type of activationBy can take the following parameters: "onload", "tap", "doubletap", "press"
+
+        //thTiltUp/thTiltDown/thTiltLeft/thTiltRight can take the values:
+        //  can be omitted (in this case, it takes the default values the plugin has pre-specified, "middle", "hard", 0 <= thTiltUp <= Number.MAX_VALUE
+        ,tiltUp: {onTiltUp: openMenu, thTiltUp: "hard", audioFeedback: "test.mp3",
+            interaction: "press", element: "my_div2"}
+
+        ,tiltDown: {onTiltDown: closeMenu, thTiltDown: "hard", audioFeedback: "test.mp3",
+            interaction: "press", element: "my_div2"}
+        //,tiltDown: {onTiltDown: closeMenu, thTiltDown: "hard", audioFeedback: "test.mp3",
+        //    interaction: {type: "press", element: "my_div2"} }
+
+//        ,tiltLeft: {onTiltLeft: prevPicture, audioFeedback: "test.mp3",
+//            interaction: "press", element: "my_div2"}
+//        ,tiltRight: {onTiltRight: nextPicture, audioFeedback: "test.mp3",
+//            interaction: "press", element: "my_div"}
+
+        ,onTiltUp: onlyTiltUp
+        ,onTiltDown: onlyTiltDown
+        ,onTiltLeft: onlyTiltLeft
+        ,onTiltRight: onlyTiltRight
+        ,elem_selection: {
+            elem_selected: elem_selected
+            ,radius: "10px"
+            ,color: "green"
+            ,left: "30%"
+            ,top: "300px"
+            ,opacity: 0.5    // 0 <= opacity <= 1
+            ,speed: 1       // 0 <= speed
+            ,sensitivity: 0.5    // sensitivity >= 0 (0 = most sensitive value)
+            ,visibility: true    // true, false
+            ,dimensionality: "1D" // 1D which is the x-axis, 2D
+            ,element: "my_div3"
+            ,classname: "class_img"
+        }
+    });
+
+    function elem_selected(cur_elem){
+        var elem_id = cur_elem.getAttribute("id");
+        var parent_id = document.getElementById(elem_id).parentElement.getAttribute("id");
+        var len = document.getElementById(parent_id).childNodes.length;
+        var j = 0;
+        for(var i = 0; i < len; ++i){
+            if(i%2 == 1){
+                ++j;
+                if(document.getElementById(parent_id).childNodes[i].getAttribute("id") == elem_id){
+//                    alert("element " + j + " is chosen");
+                }
+            }
+        }
+    }
+
+    function onlyTiltUp(){
+        var date = new Date();
+        var time = date.toLocaleTimeString() +":"+ (date.getTime() % 1000);
+        document.getElementById("msg2").innerHTML = "onlyTiltUp @ " + time;
+    }
+    function onlyTiltDown(){
+        var date = new Date();
+        var time = date.toLocaleTimeString() +":"+ (date.getTime() % 1000);
+        document.getElementById("msg2").innerHTML = "onlyTiltDown @ " + time;
+    }
+    function onlyTiltLeft(){
+        var date = new Date();
+        var time = date.toLocaleTimeString() +":"+ (date.getTime() % 1000);
+        document.getElementById("msg2").innerHTML = "onlyTiltLeft @ " + time;
+    }
+    function onlyTiltRight(){
+        var date = new Date();
+        var time = date.toLocaleTimeString() +":"+ (date.getTime() % 1000);
+        document.getElementById("msg2").innerHTML = "onlyTiltRight @ " + time;
+    }
+    function prevPicture(){
+        document.getElementById("msg3").innerHTML = "previous picture";
+    }
+    function nextPicture(){
+        document.getElementById("msg3").innerHTML = "next picture";
+    }
+    function closeMenu(){
+        document.getElementById("msg3").innerHTML = "close menu";
+    }
+    function openMenu(){
+        document.getElementById("msg3").innerHTML = "open menu";
+//        var date = new Date();
+//        var time = date.toLocaleTimeString() +":"+ (date.getTime() % 1000);
+//        document.getElementById("msg3").innerHTML = "menu opened @ " + time;
+//        $('#popup').stop().fadeIn(400).delay(3000).fadeOut(400);
+    }
+//    function nextPicture(){ alert("go to the next pic"); }
+    function tiltDown(){
+        document.getElementById("msg").innerHTML = "tilted down";
+    }
+
+    //    var interval = 250, tapping = false, pressing = false;
+    //
+    //    $("#my_div").tapping(
+    //            function () {
+    //                tapping = true; pressing = false;
+    //                document.getElementById("msg").innerHTML = "Single Tap detected";
+    //            },
+    //            function () {
+    //                tapping = true; pressing = false;
+    //                document.getElementById("msg").innerHTML = "Double Tap detected";
+    //            },
+    //            interval
+    //    );
+    //
+    //    $('#my_div').pressing(
+    //            function(){
+    //                tapping = false, pressing = true;
+    //                document.getElementById("msg").innerHTML = "press detected";
+    //            },
+    //            function(){
+    //                if(tapping == false && pressing == true){ //prevents assigning first tapping to 'press released'
+    //                    document.getElementById("msg").innerHTML = "press released";
+    //                }
+    //            });
+    //
+    //    document.getElementById("btn").addEventListener("click", function(){
+    ////        $("body").auditory_feedback();
+    //        $("body").auditory_feedback({
+    //            audio_file: "test1.mp3" // if this line is not written, the plugin plays its default file
+    //        });
+    //    });
+    //
+    //    document.getElementById("ball_btn").addEventListener("click", function(){
+    ////        radius, color, left, top, opacity, speed, sensitivity, visibility
+    ////        $("body").sliding_ball( 50, "red", 200, 400, 0.3, 1, 0.8, "inline" );
+    //
+    //        //available setting options:
+    //        //  ball_left, ball_top (these 2 can be either in px or in %),
+    //        //  ball_radius, ball_color, ball_opacity, ball_speed, ball_sensitivity, ball_visibility
+    //        $("body").sliding_ball({
+    //            ball_radius: "10px"
+    ////            ,ball_color: "red"
+    ////            ,ball_left: "100px"
+    ////            ,ball_top: "100px"
+    ////            ,ball_opacity: 0.3    // 0 <= ball_opacity <= 1
+    ////            ,ball_speed: 1
+    ////            ,ball_sensitivity: 0.8    // ball_sensitivity >= 0 (0 = most sensitive value)
+    ////            ,ball_visibility: true    // true, false
+    //        });
+    //
+    //    });
+
+</script>
+
+</body>
+</html>
