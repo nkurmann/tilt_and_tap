@@ -5,10 +5,12 @@ $(document).ready( function() {
     
     // PART 2
     
-    
+  
     
     function updatePreview () {
         //fetch text
+        document.getElementById('info').innerHTML = map_info[$(".selected").attr('id')];
+        
         //fetch image
         var selected_image_path = $(".selected").attr('src');                           
         $(".preview_image").attr('src',selected_image_path);
