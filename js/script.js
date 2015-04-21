@@ -1,6 +1,32 @@
 $(document).ready( function() {
     var thumbs_block = $('#thumbs_block');
     //alert("thumbs up");
+    
+    // PART 2
+    
+    
+    
+    function updatePreview () {
+        //fetch text
+        //fetch image
+        
+    }
+    
+    function openPreview () {
+        alert("opened");
+        $("#preview").show();
+        updatePreview()
+    }
+        
+    function closePreview () {
+        alert("closed");
+        $("#preview").hide();
+    }
+    
+    
+    
+    
+    // PART 1
 
     function nav_left () {
         //alert("nav_left");
@@ -12,6 +38,9 @@ $(document).ready( function() {
         else {
             $("body").auditory_feedback({ audio_file: "sound/test.mp3" });
         }
+        
+        //part2
+        updatePreview();
     };
 
     function nav_right () {
@@ -24,7 +53,9 @@ $(document).ready( function() {
             $(".selected").removeClass("selected").addClass("notselected");
             next_img.removeClass("notselected").addClass("selected");
         }
-       
+        
+        //part2
+        updatePreview();
     };
 
 
