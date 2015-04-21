@@ -13,14 +13,19 @@ $(document).ready( function() {
     }
     
     function openPreview () {
-        alert("opened");
         $("#preview").show();
         updatePreview()
     }
     
     function tiltUp() {
         if ($("#touch:hover").length) {
-            openPreview();
+            if(!$("#preview").is(":visible")) {
+                openPreview();
+            }
+            else {
+                alert("already open");
+                changeColor ();
+            }
         }
         else {
             alert("hold and tilt up to open")
@@ -28,13 +33,18 @@ $(document).ready( function() {
     }
     
     function closePreview () {
-        alert("closed");
         $("#preview").hide();
     }
     
      function tiltDown() {
         if ($("#touch:hover").length) {
-            closePreview();
+            if($("#preview").is(":visible")) {
+                closePreview();
+            }
+            else {
+                alert("already closed");
+                changeColor ();
+            }
         }
         else {
             alert("hold and tilt down to close")
