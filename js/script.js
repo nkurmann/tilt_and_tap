@@ -8,6 +8,7 @@ $(document).ready( function() {
     function updatePreview () {
         //fetch text
         //fetch image
+        $(".selected").attr('src','img/i3.png');
         
     }
     
