@@ -62,3 +62,6 @@ body {
 	bottom:0%;
 	right: 10%;
 }
+#preview {
+    display: none;
+}

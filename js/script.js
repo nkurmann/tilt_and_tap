@@ -1,6 +1,6 @@
 $(document).ready( function() {
     
-    var d = new Date();
+    
     var time_up = 0;
     
     // PART 2
@@ -10,7 +10,8 @@ $(document).ready( function() {
     function updatePreview () {
         //fetch text
         //fetch image
-        var selected_image_path = $(".selected").attr('src');                           $(".preview_image").attr('src',selected_image_path);
+        var selected_image_path = $(".selected").attr('src');                           
+        $(".preview_image").attr('src',selected_image_path);
         
     }
     
@@ -20,18 +21,19 @@ $(document).ready( function() {
     }
     
     function tiltUp() {
+        var d = new Date();
         time_up = d.getTime();
         if ($("#touch:hover").length) {
             if(!$("#preview").is(":visible")) {
                 openPreview();
             }
             else {
-                alert("already open");
+                //alert("already open");
                 changeColor ();
             }
         }
         else {
-            alert("hold and tilt up to open")
+            //alert("hold and tilt up to open")
         }
     }
     
@@ -40,6 +42,7 @@ $(document).ready( function() {
     }
     
      function tiltDown() {
+        var d = new Date();
         var time_down = d.getTime();
 
         if ($("#touch:hover").length) {
@@ -47,16 +50,22 @@ $(document).ready( function() {
                 closePreview();
             }
             else {
-                alert("already closed");
+                //alert("already closed");
                 changeColor ();
             }
         }
         else {
-            alert("hold and tilt down to close")
+            //alert("hold and tilt down to close")
         }
-        if (time_down - time_up) <= 150 {
+        
+        if ((time_down - time_up) <= 150) {
+            alert("time up: " +time_up +"\ntime down: " +time_down);
             alert("Time interval under 150ms!");
         }
+         else {
+             alert("TOO SLOOW!\ " +(time_down-time_up) +"ms");
+         }
+         
      }
     
     
