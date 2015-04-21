@@ -17,13 +17,23 @@ $(document).ready( function() {
         $("#preview").show();
         updatePreview()
     }
-        
+    
+    function tiltUp() {
+        if ($("#touch:hover").length) {
+            openPreview();
+        }
+    }
+    
     function closePreview () {
         alert("closed");
         $("#preview").hide();
     }
     
-    
+     function tiltDown() {
+        if ($("#touch:hover").length) {
+            closePreview();
+        }
+     }
     
     
     // PART 1
@@ -35,9 +45,9 @@ $(document).ready( function() {
             $(".selected").removeClass("selected").addClass("notselected");
             prev_img.removeClass("notselected").addClass("selected");
         }
-        else {
+        /*else {
             $("body").auditory_feedback({ audio_file: "sound/test.mp3" });
-        }
+        }*/
         
         //part2
         updatePreview();
@@ -65,7 +75,8 @@ $(document).ready( function() {
     $("#thumbs_block").tiltandtap({
         onTiltLeft  : nav_left,
         onTiltRight : nav_right, 
-        onTiltUp    : changeColor
+        onTiltUp    : tiltUp,
+        ontiltDown  : tiltDown
     });
     
     
