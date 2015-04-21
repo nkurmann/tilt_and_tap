@@ -1,6 +1,5 @@
 $(document).ready( function() {
-    var thumbs_block = $('#thumbs_block');
-    //alert("thumbs up");
+    
     
     // PART 2
     
@@ -22,6 +21,9 @@ $(document).ready( function() {
         if ($("#touch:hover").length) {
             openPreview();
         }
+        else {
+            alert("hold and tilt up to open")
+        }
     }
     
     function closePreview () {
@@ -32,6 +34,9 @@ $(document).ready( function() {
      function tiltDown() {
         if ($("#touch:hover").length) {
             closePreview();
+        }
+        else {
+            alert("hold and tilt down to close")
         }
      }
     
@@ -76,7 +81,7 @@ $(document).ready( function() {
         onTiltLeft  : nav_left,
         onTiltRight : nav_right, 
         onTiltUp    : tiltUp,
-        ontiltDown  : tiltDown
+        onTiltDown  : tiltDown
     });
     
     
