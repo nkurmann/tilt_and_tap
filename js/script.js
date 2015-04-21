@@ -1,5 +1,7 @@
 $(document).ready( function() {
     
+    var d = new Date();
+    var time_up = 0;
     
     // PART 2
     
@@ -19,6 +21,7 @@ $(document).ready( function() {
     }
     
     function tiltUp() {
+        time_up = d.getTime();
         if ($("#touch:hover").length) {
             openPreview();
         }
@@ -33,11 +36,15 @@ $(document).ready( function() {
     }
     
      function tiltDown() {
-        if ($("#touch:hover").length) {
+        var time_down = d.getTime();
+         if ($("#touch:hover").length) {
             closePreview();
         }
         else {
             alert("hold and tilt down to close")
+        }
+        if (time_down - time_up) <= 150 {
+            alert("Time interval under 150ms!");
         }
      }
     
