@@ -15,7 +15,6 @@ $(document).ready( function() {
     }
     
     function openPreview () {
-        alert("opened");
         $("#preview").show();
         updatePreview()
     }
@@ -23,7 +22,13 @@ $(document).ready( function() {
     function tiltUp() {
         time_up = d.getTime();
         if ($("#touch:hover").length) {
-            openPreview();
+            if(!$("#preview").is(":visible")) {
+                openPreview();
+            }
+            else {
+                alert("already open");
+                changeColor ();
+            }
         }
         else {
             alert("hold and tilt up to open")
@@ -31,14 +36,20 @@ $(document).ready( function() {
     }
     
     function closePreview () {
-        alert("closed");
         $("#preview").hide();
     }
     
      function tiltDown() {
         var time_down = d.getTime();
-         if ($("#touch:hover").length) {
-            closePreview();
+
+        if ($("#touch:hover").length) {
+            if($("#preview").is(":visible")) {
+                closePreview();
+            }
+            else {
+                alert("already closed");
+                changeColor ();
+            }
         }
         else {
             alert("hold and tilt down to close")
