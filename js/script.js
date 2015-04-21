@@ -8,7 +8,7 @@ $(document).ready( function() {
     function updatePreview () {
         //fetch text
         //fetch image
-        $(".preview_image").attr('src','img/i3.png');
+        $(".preview_image").attr('src','img/img3.jpg');
         
     }
     
