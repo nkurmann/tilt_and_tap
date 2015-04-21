@@ -44,6 +44,17 @@ $(document).ready( function() {
      function tiltDown() {
         var d = new Date();
         var time_down = d.getTime();
+        //alert(time_down);
+        if ((time_down - time_up) < 400) {
+            alert("time up: " +time_up +"\ntime down: " +time_down);
+            alert("Time interval under 400ms!");
+            $("#info").toggle();
+        }
+        else {
+            alert("TOO SLOOW!\ " +(time_down-time_up) +"ms");
+        }
+         
+         
 
         if ($("#touch:hover").length) {
             if($("#preview").is(":visible")) {
@@ -58,13 +69,7 @@ $(document).ready( function() {
             //alert("hold and tilt down to close")
         }
         
-        if ((time_down - time_up) <= 150) {
-            alert("time up: " +time_up +"\ntime down: " +time_down);
-            alert("Time interval under 150ms!");
-        }
-         else {
-             alert("TOO SLOOW!\ " +(time_down-time_up) +"ms");
-         }
+        
          
      }
     

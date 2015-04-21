@@ -64,4 +64,5 @@ body {
 }
 #preview {
     display: none;
+    border: 1 px solid black;
 }
