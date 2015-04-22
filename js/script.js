@@ -21,7 +21,7 @@ $(document).ready( function() {
     }
     
     function openPreview () {
-        $("#preview").show();//.stop( true, true ).slideToggle();
+        $("#preview").stop( true, true ).slideToggle(); //.show();
         $("#touch").trigger("touchend");
         updatePreview()
     }
@@ -45,26 +45,28 @@ $(document).ready( function() {
     }
     
     function closePreview () {
-        $("#preview").hide();//.stop( true, true ).slideToggle();
+        $("#preview").stop( true, true ).slideToggle(); //.hide();
         $("#touch").trigger("touchend");
     }
     
-     function tiltDown() {
-        var d = new Date();
-        var time_down = d.getTime();
-        //alert(time_down);
-        if ((time_down - time_up) < 500) {
-            //alert("time up: " +time_up +"\ntime down: " +time_down);
-            //alert("Time interval under 500ms!");
-            $("#info").toggle();//.stop( true, true ).slideToggle();
-            return;
-        }
-        else {
-            //alert("TOO SLOOW!\ " +(time_down-time_up) +"ms");
-            
-            //only
-        }
+    function tiltDown() {
          
+        if ($("#preview").is(":visible")) {
+            var d = new Date();
+            var time_down = d.getTime();
+            //alert(time_down);
+            if ((time_down - time_up) < 500) {
+                //alert("time up: " +time_up +"\ntime down: " +time_down);
+                //alert("Time interval under 500ms!");
+                $("#info").stop( true, true ).slideToggle();//.Toggle();
+                return;
+            }
+            else {
+                //alert("TOO SLOOW!\ " +(time_down-time_up) +"ms");
+
+                //only
+            }
+        }
         // PREVIEW LOGIC
 
         //if ($("#touch:hover").length) {
