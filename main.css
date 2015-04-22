@@ -47,6 +47,11 @@ body {
     background-color: floralwhite;
     border: 1px solid black;
 }
+
+#touch:hover {
+    background-color: aliceblue;
+}
+
 /* OK STUDENT */
 
 .centerimg {
@@ -61,6 +66,8 @@ body {
 	position:absolute;
 	bottom:0%;
 	right: 10%;
+    
+    display: none;
 }
 #preview {
     display: none;
