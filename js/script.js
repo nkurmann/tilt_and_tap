@@ -55,14 +55,17 @@ $(document).ready( function() {
         //alert(time_down);
         if ((time_down - time_up) < 500) {
             //alert("time up: " +time_up +"\ntime down: " +time_down);
-            alert("Time interval under 400ms!");
+            //alert("Time interval under 500ms!");
             $("#info").toggle();//.stop( true, true ).slideToggle();
+            return;
         }
         else {
             //alert("TOO SLOOW!\ " +(time_down-time_up) +"ms");
+            
+            //only
         }
          
-         
+        // PREVIEW LOGIC
 
         //if ($("#touch:hover").length) {
         if (!$("#touch").hasClass("hovering")) {
